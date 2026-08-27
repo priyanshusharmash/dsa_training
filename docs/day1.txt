@@ -1,0 +1,2 @@
+1. Access Modifier
+	Public (anywhere), private (within the same class), protected(only same package+child classes), default (same package).
