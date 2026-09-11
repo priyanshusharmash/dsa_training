@@ -8,31 +8,29 @@ public class StringToInteger{
 		System.out.print(ans);
 	}
 	private static int stringToInteger(String str){
-		if(str.isEmpty()) return 0;
-		StringBuilder trimmedString = new StringBuilder(str.trim());
-		long longNumber = 0;
-		boolean signedFound = false;
-		if(trimmedString.charAt(0)== '-'){
-			signedFound=true;
-			trimmedString.deleteCharAt(0);
-		}if(trimmedString.isEmpty()) return 0;
-		if(trimmedString.charAt(0) == '+') trimmedString.deleteCharAt(0);
-		for(char ch:trimmedString.toString().toCharArray()){
-			System.out.println("Current Digit: "+ch);
-			if(Character.isDigit(ch)){
-				int currentNumber = Integer.parseInt(String.valueOf(ch));
-				if(longNumber*10 + currentNumber > Integer.MAX_VALUE) {
-					longNumber = Integer.MAX_VALUE;
-					break;
-				}
-				longNumber = longNumber*10 + currentNumber;
-			}else{
+		if (str.isEmpty()) return 0;
+		String trimmedString = str.trim();
+		if (trimmedString.isEmpty()) return 0;
+		int index = 0;
+		boolean negative = false;
+		if (trimmedString.charAt(index) == '+' || trimmedString.charAt(index) == '-') {
+			negative = trimmedString.charAt(index) == '-';
+			index++;
+		}
+		long number = 0;
+		while (index < trimmedString.length()) {
+			char ch = trimmedString.charAt(index);
+			if (!Character.isDigit(ch)) {
 				break;
 			}
+			int digit = ch - '0';
+			long limit = negative? -(long) Integer.MIN_VALUE: Integer.MAX_VALUE;
+			if (number > (limit - digit) / 10) {
+				return negative? Integer.MIN_VALUE: Integer.MAX_VALUE;
+			}
+			number = number * 10 + digit;
+			index++;
 		}
-		if(signedFound){
-			if(longNumber == Integer.MAX_VALUE) return Integer.MIN_VALUE;
-			else return (int)(longNumber-(longNumber*2));
-		}else return (int)longNumber;
+		return negative ? (int) -number : (int) number;
 	}
 }
