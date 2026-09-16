@@ -16,20 +16,21 @@ public class DecodeString{
 		for(char ch : s.toCharArray()){
 			
 			if(Character.isDigit(ch)){
-				if(!currentString.isBlank()) stringStack.push(currentString);
-				currentString = "";
 				num = (num*10)+ (ch-'0');
 			}
 			else if(ch == '[') {
 				noStack.push(num);
-				num =0;
+				stringStack.push(currentString);
+				currentString = "";
+				num = 0;
 			}
-			else if(ch == ']'){
-				currentString = (stringStack.isEmpty()? "": stringStack.pop())+(currentString.repeat(noStack.pop()));
+			else if(ch == ']') {
+				int count = noStack.pop();
+				String previous = stringStack.pop();
+
+				currentString = previous + currentString.repeat(count);
 			}
 			else currentString+=ch;
-			System.out.println("Current String: " + currentString);
-			System.out.println("Stack: " + stringStack.toString());
 		}
 		return currentString;
 	}
