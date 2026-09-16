@@ -14,7 +14,6 @@ public class ZigZagPattern{
 		for(int i =0;i<sb.length;i++) sb[i] = new StringBuilder();
 		int direction = -1, row =0;
 		for(char ch : s.toCharArray()){
-			if(!Character.isLetter(ch)) continue;
 			if(row ==0)	direction = -1;
 			if(row >= numRows-1) direction = 1;
 			sb[row].append(ch);
