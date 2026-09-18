@@ -10,20 +10,18 @@ public class LongestPalindromicSubstring{
 	private static String longestPalindrome(String s) {
 		String maxString = "";
 		for(int start = 0;start<s.length();start++){
-			String window = "";
-			for(int end = start;end<s.length();end++){
-				window += s.charAt(end);
-				if(checkPalindrome(window)){
-					if(window.length()>maxString.length()) maxString = window;
-				}
-			}
+			String oddLengthPalindrome = expand(s, start,start);
+			String evenLengthPalindrome = expand(s,start,start+1);
+			if(oddLengthPalindrome.length()>maxString.length()) maxString = oddLengthPalindrome;
+			if(evenLengthPalindrome.length()>maxString.length()) maxString = evenLengthPalindrome;
 		}
 		return maxString;
 	}
-	private static boolean checkPalindrome(String str){
-		for(int i =0;i<str.length();i++){
-			if(str.charAt(i)!=str.charAt(str.length()-1-i)) return false;
-		}
-		return true;
+	private static String expand(String str, int left, int right){
+		while(left>=0 && right<str.length() && str.charAt(left)==str.charAt(right)){
+			left--;
+			right++;
+		}			
+		return str.substring(left+1,right);
 	}
 }
